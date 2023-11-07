@@ -23,9 +23,45 @@ class PatientResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nom')
+                Forms\Components\TextInput::make('name')
+                    ->label('Nom')
                     ->required()
-                    ->maxLength(255)
+                    ->maxLength(255),
+
+                Forms\Components\Select::make('type')
+                    ->options([
+                        'cat'       => 'Chat',
+                        'dog'       => 'Chien',
+                        'rabbit'    => 'Lapin',
+                    ])
+                    ->required(),
+
+                Forms\Components\DatePicker::make('date_of_birth')
+                    ->label('date d\'anniversaire')
+                    ->required()
+                    ->maxDate(now()),
+
+                Forms\Components\Select::make('owner_id')
+                ->label('Propriétaire')
+                ->relationship('owner', 'name')
+                ->searchable()
+                ->preload()
+                ->createOptionForm([
+                    Forms\Components\TextInput::make('name')
+                        ->label('Nom')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('email')
+                        ->label('Email')
+                        ->email()
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('phone')
+                        ->label('Téléphone')
+                        ->tel()
+                        ->required(),
+                ])
+                ->required()
             ]);
     }
 
@@ -33,10 +69,24 @@ class PatientResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Nom')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('date_of_birth')
+                    ->label('date d\'anniversaire')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('owner.name')
+                    ->label('Propriétaire')
+                    ->searchable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('type')
+                ->options([
+                    'cat'       => 'Chat',
+                    'dog'       => 'Chien',
+                    'rabbit'    => 'Lapin',
+                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
