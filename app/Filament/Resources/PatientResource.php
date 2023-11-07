@@ -75,6 +75,7 @@ class PatientResource extends Resource
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->label('date d\'anniversaire')
+                    ->dateTime('m-d-Y')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('owner.name')
                     ->label('Propriétaire')
@@ -101,7 +102,7 @@ class PatientResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TreatmentsRelationManager::class,
         ];
     }
 
