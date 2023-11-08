@@ -57,6 +57,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentLanguageSwitchPlugin::make()
-            ]);
+            ])
+            // ->darkMode(false)
+            // ->databaseNotifications()
+            // ->databaseNotificationsPolling('30s')
+        ;
     }
 }

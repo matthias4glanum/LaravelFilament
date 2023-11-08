@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\OwnerResource\Pages;
-use App\Filament\Resources\OwnerResource\RelationManagers;
-use App\Models\Owner;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Owner;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\OwnerResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\OwnerResource\RelationManagers;
 
 class OwnerResource extends Resource
 {
@@ -29,8 +30,8 @@ class OwnerResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->label('Téléphone')
                     ->numeric()
-                    ->minValue(10)
-                    ->maxValue(10)
+                    // ->minValue(10)
+                    // ->maxValue(10)
                     ->required(),
             ]);
     }
@@ -49,7 +50,7 @@ class OwnerResource extends Resource
                     ->searchable(),
             ])
             ->filters([
-                //
+                Filter::make('name')->label('Nom')
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
